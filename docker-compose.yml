@@ -1,0 +1,35 @@
+# deal-hunter-app/docker-compose.yml
+
+version: '3.8'
+
+services:
+  # The Backend Service
+  backend:
+    build: ./backend  # Tells Compose to build the image from the Dockerfile in ./backend
+    ports:
+      - "5001:5001"   # Maps your local machine's port 5001 to the container's port 5001
+    volumes:
+      # This is the magic for nodemon:
+      # It maps your local ./backend folder to the container's /usr/src/app folder.
+      # Changes you make locally will instantly be reflected in the container.
+      - ./backend:/usr/src/app
+      # We add this anonymous volume to prevent the container's node_modules
+      # from being overwritten by a local node_modules folder (if one exists).
+      - /usr/src/app/node_modules
+    env_file:
+      - ./backend/.env # This tells Compose to load environment variables from your .env file
+
+  # The Frontend Service
+  frontend:
+    build: ./frontend # Build the image from ./frontend
+    ports:
+      - "3000:3000"   # Maps your local port 3000 to the container's port 3000
+    volumes:
+      # This enables React's hot-reloading. Changes to your src folder
+      # will trigger a refresh in the browser.
+      - ./frontend:/app
+      - /app/node_modules
+    stdin_open: true  # These two lines are often needed for Create React App
+    tty: true         # to run correctly in a Docker container.
+    environment:
+      - WDS_SOCKET_PORT=0
