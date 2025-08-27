@@ -97,6 +97,24 @@ const Results = ({ results, allProducts, totalCount, onLoadMore, isLoading, allL
                   Smart Deal Insights
                 </span>
               </h2>
+              
+              {/* Search Term Info - Show refined search if different */}
+              {results.refinedSearchTerm && results.refinedSearchTerm !== results.originalSearchTerm && (
+                <div className="mb-4 p-3 bg-blue-50 dark:bg-blue-900/30 rounded-xl border border-blue-200 dark:border-blue-700">
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-blue-600 dark:text-blue-400">🔍</span>
+                    <span className="text-gray-600 dark:text-gray-400">
+                      Searched for: <span className="font-medium text-blue-600 dark:text-blue-400">"{results.refinedSearchTerm}"</span>
+                    </span>
+                    {results.originalSearchTerm && (
+                      <span className="text-gray-500 dark:text-gray-500 text-xs">
+                        (refined from "{results.originalSearchTerm}")
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+              
               <div className="flex flex-wrap items-center gap-3">
                 <span className="px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-bold rounded-full border border-indigo-200/50 dark:border-indigo-800/50">
                   💎 AI-Powered Analysis

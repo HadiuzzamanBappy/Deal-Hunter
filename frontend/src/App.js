@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Header from './components/Header';
 import SignIn from './components/Auth/SignIn';
@@ -12,18 +12,22 @@ import TrendingSearches from './components/TrendingSearches';
 import SearchDemo from './components/SearchDemo';
 import { ThemeProvider, useTheme } from './context/ThemeContext';
 import { AuthProvider, useAuth } from './context/AuthContext';
+import { detectUserLocation } from './utils/locationUtils';
 
 function MainApp() {
   const { user } = useAuth();
   const [currentView, setCurrentView] = useState('search'); // 'search' | 'favorites'
   const [searchTerm, setSearchTerm] = useState('');
-  const [country, setCountry] = useState('GLOBAL');
+  const [country, setCountry] = useState('BD'); // Default to Bangladesh
+  const [availableCountries, setAvailableCountries] = useState([]);
+  const [locationDetected, setLocationDetected] = useState(false);
   const [results, setResults] = useState(null);
   const [allProducts, setAllProducts] = useState([]); // all products from backend
   const [visibleProducts, setVisibleProducts] = useState([]); // products currently shown
   const [offset, setOffset] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
+  const [loadingMessage, setLoadingMessage] = useState('');
   const [error, setError] = useState('');
   // ...existing code...
   // Auth modal state
@@ -50,11 +54,73 @@ function MainApp() {
       handleSearch(event);
     }, 100);
   };
+
+  // Load available countries and detect user location
+  useEffect(() => {
+    const loadCountriesAndLocation = async () => {
+      try {
+        const response = await axios.get(`${process.env.REACT_APP_API_URL || 'http://localhost:5001'}/api/search/countries`);
+        if (response.data.countries) {
+          setAvailableCountries(response.data.countries);
+          
+          // Only detect location if not already detected
+          if (!locationDetected) {
+            const detectedCountry = await detectUserLocation(response.data.countries);
+            setCountry(detectedCountry);
+            setLocationDetected(true);
+          }
+        }
+      } catch (error) {
+        console.error('Failed to fetch countries or detect location:', error);
+        // Fallback countries
+        const fallbackCountries = [
+          { code: 'BD', name: 'Bangladesh', flag: '🇧🇩' },
+          { code: 'US', name: 'United States', flag: '🇺🇸' },
+        ];
+        setAvailableCountries(fallbackCountries);
+        setCountry('BD'); // Default to BD
+        setLocationDetected(true);
+      }
+    };
+
+    loadCountriesAndLocation();
+  }, [locationDetected]);
+
   // Example settings states (can be expanded)
   // ...existing code...
   const [maxResults, setMaxResults] = useState(12);
   const [sortBy, setSortBy] = useState('relevance');
   // ...existing code...
+
+  const getLoadingMessages = (searchTerm, country) => {
+    const messages = [
+      `🔍 Scanning ${country === 'BD' ? 'Bangladesh' : country === 'US' ? 'US' : 'global'} markets for "${searchTerm}"...`,
+      `🤖 AI is analyzing thousands of "${searchTerm}" products...`,
+      `⚡ Comparing prices from multiple sources...`,
+      `🎯 Finding the best deals on "${searchTerm}"...`,
+      `💡 Our smart algorithms are working hard...`,
+      `🚀 Hunting for unbeatable prices...`,
+      `🔥 Discovering hot deals just for you...`,
+      `💰 Calculating the best value options...`,
+      `📊 Cross-referencing product ratings...`,
+      `🛒 Almost done finding your perfect match...`
+    ];
+    return messages;
+  };
+
+  const startLoadingAnimation = (searchTerm, country) => {
+    const messages = getLoadingMessages(searchTerm, country);
+    let index = 0;
+    
+    setLoadingMessage(messages[0]);
+    
+    const interval = setInterval(() => {
+      index = (index + 1) % messages.length;
+      setLoadingMessage(messages[index]);
+    }, 2000); // Change message every 2 seconds
+    
+    return interval;
+  };
 
   const handleSearch = async (e) => {
     e.preventDefault();
@@ -67,9 +133,13 @@ function MainApp() {
     setOffset(0);
     setTotalCount(0);
     setVisibleProducts([]);
+    
+    // Start loading animation
+    const loadingInterval = startLoadingAnimation(searchTerm, country);
 
     try {
-      const response = await axios.post('http://localhost:5001/api/search', {
+      const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
+      const response = await axios.post(`${apiUrl}/api/search`, {
         searchTerm: searchTerm,
         country: country,
         maxResults: 1000, // get all at once
@@ -77,6 +147,9 @@ function MainApp() {
         offset: 0,
         userId: user?.uid || null
       });
+      
+      console.log('Search response:', response.data); // Debug log
+      
       setResults(response.data);
       // Move best and second best choice items to the front
       let products = response.data.products;
@@ -110,9 +183,12 @@ function MainApp() {
       setTotalCount(finalList.length);
       setVisibleProducts(finalList.slice(0, maxResults));
     } catch (err) {
+      console.error('Search error:', err); // Debug log
       setError(err.response?.data?.error || 'An unexpected error occurred.');
     } finally {
+      clearInterval(loadingInterval); // Stop loading animation
       setIsLoading(false);
+      setLoadingMessage('');
     }
   };
 
@@ -174,6 +250,7 @@ function MainApp() {
               setSearchTerm={setSearchTerm}
               country={country}
               setCountry={setCountry}
+              availableCountries={availableCountries}
               isLoading={isLoading}
               handleSearch={handleSearch}
             />
@@ -186,21 +263,44 @@ function MainApp() {
               </>
             )}
 
-            {/* Enhanced Loading State */}
+            {/* Enhanced Loading State with Dynamic Messages */}
             {isLoading && (
               <div className="flex flex-col items-center justify-center my-16 px-8">
-                <div className="relative">
+                <div className="relative mb-8">
                   {/* Animated Loading Spinner */}
-                  <div className="animate-spin rounded-full h-20 w-20 border-4 border-gray-200 dark:border-gray-700"></div>
-                  <div className="animate-spin rounded-full h-20 w-20 border-4 border-indigo-500 border-t-transparent absolute inset-0"></div>
+                  <div className="animate-spin rounded-full h-24 w-24 border-4 border-gray-200 dark:border-gray-700"></div>
+                  <div className="animate-spin rounded-full h-24 w-24 border-4 border-indigo-500 border-t-transparent absolute inset-0"></div>
+                  
+                  {/* Pulsing Inner Circle */}
+                  <div className="absolute inset-4 bg-indigo-100 dark:bg-indigo-900 rounded-full animate-pulse flex items-center justify-center">
+                    <span className="text-2xl">🛒</span>
+                  </div>
                 </div>
-                <div className="mt-8 text-center">
-                  <h3 className="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
-                    🔍 Searching for the best deals...
-                  </h3>
-                  <p className="text-gray-500 dark:text-gray-400">
-                    Our AI is analyzing thousands of products to find you the perfect matches
-                  </p>
+                
+                <div className="text-center max-w-md">
+                  <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
+                    <h3 className="text-xl font-bold text-gray-700 dark:text-gray-300 mb-3">
+                      {loadingMessage || '🔍 Searching for the best deals...'}
+                    </h3>
+                    <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                      <div className="flex gap-1">
+                        <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce"></div>
+                        <div className="w-2 h-2 bg-purple-500 rounded-full animate-bounce" style={{animationDelay: '0.1s'}}></div>
+                        <div className="w-2 h-2 bg-pink-500 rounded-full animate-bounce" style={{animationDelay: '0.2s'}}></div>
+                      </div>
+                      <span>Processing your request</span>
+                    </div>
+                    
+                    {/* Progress Indicators */}
+                    <div className="mt-4 space-y-2">
+                      <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
+                        <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1">
+                          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-1 rounded-full animate-pulse" style={{width: '85%'}}></div>
+                        </div>
+                        <span>85%</span>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}

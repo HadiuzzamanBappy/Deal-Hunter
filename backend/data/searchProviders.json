@@ -1,0 +1,72 @@
+[
+  {
+    "name": "eBay",
+    "type": "API",
+    "enabled": true,
+    "countries": ["Global"],
+    "config": {
+      "apiUrl": "https://svcs.sandbox.ebay.com/services/search/FindingService/v1",
+      "maxResults": 10,
+      "params": {
+        "OPERATION-NAME": "findItemsByKeywords",
+        "SERVICE-VERSION": "1.0.0",
+        "SECURITY-APPNAME": "${EBAY_SANDBOX_APP_ID}",
+        "RESPONSE-DATA-FORMAT": "JSON",
+        "keywords": "__KEYWORDS__",
+        "paginationInput.entriesPerPage": "10"
+      },
+      "mapper": {
+        "itemsPath": "findItemsByKeywordsResponse[0].searchResult[0].item",
+        "fields": {
+          "itemId": "itemId[0]",
+          "title": "title[0]",
+          "galleryURL": "galleryURL[0]",
+          "viewItemURL": "viewItemURL[0]",
+          "price": "sellingStatus[0].currentPrice[0]"
+        }
+      }
+    }
+  },
+  {
+    "name": "Daraz",
+    "type": "SCRAPER",
+    "enabled": true,
+    "countries": ["BD"],
+    "config": {
+      "baseUrl": "https://www.daraz.com.bd",
+      "searchUrl": "https://www.daraz.com.bd/catalog/?q=__KEYWORDS__",
+      "maxResults": 10,
+      "productCardSelector": "[data-qa-locator='product-item']",
+      "mapper": {
+        "fields": {
+          "itemId": { "selector": "", "attribute": "data-item-id" },
+          "title": { "selector": ".RfADt a", "attribute": "title" },
+          "price": { "selector": ".aBrP0 .ooOxS" },
+          "galleryURL": { "selector": ".picture-wrapper img", "attribute": "src" },
+          "viewItemURL": { "selector": ".RfADt a", "attribute": "href" }
+        }
+      }
+    }
+  },
+  {
+    "name": "Othoba",
+    "type": "SCRAPER",
+    "enabled": true,
+    "countries": ["BD"],
+    "config": {
+      "baseUrl": "https://othoba.com",
+      "searchUrl": "https://othoba.com/ts/search/__KEYWORDS__?t=t&q=__KEYWORDS__",
+      "maxResults": 10,
+      "productCardSelector": ".product",
+      "mapper": {
+        "fields": {
+          "itemId": { "selector": ".dl-product-id", "attribute": "value" },
+          "title": { "selector": ".product-name a" },
+          "price": { "selector": ".new-price" },
+          "galleryURL": { "selector": ".product-media img", "attribute": "src" },
+          "viewItemURL": { "selector": ".product-name a", "attribute": "href" }
+        }
+      }
+    }
+  }
+]

@@ -1,6 +1,561 @@
 {
   "searches": [
     {
+      "query": "face wash",
+      "timestamp": 1756327773424,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756327406119,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756327338006,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756327238776,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756327207522,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756327173267,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756327097266,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756326941392,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756326931433,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756326868919,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756326476815,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756326261971,
+      "userId": null
+    },
+    {
+      "query": "smartphone",
+      "timestamp": 1756326199381,
+      "userId": null
+    },
+    {
+      "query": "phone",
+      "timestamp": 1756326023812,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756325982051,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756325775916,
+      "userId": null
+    },
+    {
+      "query": "phone",
+      "timestamp": 1756325599127,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756325558771,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756325427790,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756325403093,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "phone",
+      "timestamp": 1756325220591,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756324875155,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756324852772,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756324809354,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756324791074,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756324759137,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756324739104,
+      "userId": null
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756324517799,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756324329667,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756324310447,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "smartphone",
+      "timestamp": 1756324021540,
+      "userId": null
+    },
+    {
+      "query": "coffee maker",
+      "timestamp": 1756323796286,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756323576873,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756323557011,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756323530536,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756323458682,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756323406784,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756323349626,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756323269781,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756322911538,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756322837233,
+      "userId": null
+    },
+    {
+      "query": "smartphone",
+      "timestamp": 1756322698774,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756322682431,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756322394742,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756321857011,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756321815855,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756321747459,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756321542988,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756321469381,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756321440301,
+      "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756321380258,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756321352794,
+      "userId": null
+    },
+    {
+      "query": "gaming laptop",
+      "timestamp": 1756321156657,
+      "userId": "test-user"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756320707470,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756320051403,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756318695289,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756318624880,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756318612702,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756311911376,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756311901109,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756311894744,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756310656560,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756306711710,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756306680555,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756306625575,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756306612601,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756306394844,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756306376229,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756306182215,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756306096734,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756306073265,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756306067511,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756305683936,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756305652701,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756304824865,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under 100",
+      "timestamp": 1756303264905,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756303205382,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "wireless headphones under $100",
+      "timestamp": 1756303190978,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756297683389,
+      "userId": null
+    },
+    {
+      "query": "laptop under 100",
+      "timestamp": 1756297244911,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756297171769,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296985087,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296984834,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296984636,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296984362,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296984131,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296983894,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296983653,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296983414,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296982998,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296982696,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296982481,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296982156,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296981946,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296981714,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296981517,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296981131,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296980712,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296980460,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296980167,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296979885,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296979642,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296979274,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296978882,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296978382,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296977552,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296973368,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296972975,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296972552,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296972058,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756296970887,
+      "userId": null
+    },
+    {
       "query": "laptop",
       "timestamp": 1756292947287,
       "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
@@ -147,11 +702,19 @@
     }
   ],
   "popularSearches": {
-    "laptop": 19,
+    "laptop": 96,
     "wireless headphones": 4,
-    "gaming laptop": 3,
+    "gaming laptop": 4,
     "dfhdfhdf": 1,
     "smart watch": 1,
-    "lapto": 1
+    "lapto": 1,
+    "laptop under 100": 1,
+    "wireless headphones under $100": 11,
+    "wireless headphones under 100": 1,
+    "best gaming laptop 2024": 12,
+    "smartphone": 3,
+    "coffee maker": 1,
+    "phone": 3,
+    "face wash": 1
   }
 }
