@@ -1,0 +1,66 @@
+{
+  "trending": [
+    "laptop",
+    "wireless headphones",
+    "gaming laptop",
+    "lapto",
+    "smart watch",
+    "dfhdfhdf",
+    "smartphone under 500",
+    "bluetooth speaker",
+    "mechanical keyboard",
+    "fitness tracker"
+  ],
+  "popular": [
+    "iPhone",
+    "Samsung Galaxy",
+    "MacBook",
+    "AirPods",
+    "iPad",
+    "PlayStation",
+    "Xbox",
+    "Nintendo Switch",
+    "Canon camera",
+    "Sony headphones"
+  ],
+  "categories": {
+    "Electronics": [
+      "smartphone",
+      "laptop",
+      "tablet",
+      "headphones",
+      "camera",
+      "smart tv"
+    ],
+    "Gaming": [
+      "gaming laptop",
+      "gaming mouse",
+      "gaming keyboard",
+      "gaming chair",
+      "PS5",
+      "Xbox"
+    ],
+    "Fashion": [
+      "shoes",
+      "jacket",
+      "watch",
+      "sunglasses",
+      "backpack",
+      "wallet"
+    ],
+    "Home": [
+      "coffee maker",
+      "air fryer",
+      "vacuum cleaner",
+      "smart bulb",
+      "speaker"
+    ],
+    "Sports": [
+      "fitness tracker",
+      "yoga mat",
+      "dumbbells",
+      "running shoes",
+      "bicycle"
+    ]
+  }
+}

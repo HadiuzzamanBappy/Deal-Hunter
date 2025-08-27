@@ -1,0 +1,18 @@
+{
+  "favorites": [
+    {
+      "id": "1756293129063",
+      "userId": "user_5g9quvqv9_1756292516462",
+      "productId": "unknown_110588341952",
+      "addedAt": "2025-08-27T11:12:09.063Z",
+      "product": {
+        "title": "[90% new]ACEMAGIC AX17 UHD Laptop 17.3\" FHD Netbook Intel N97 16GB RAM 512GB SSD",
+        "price": "229.99 USD",
+        "source": "eBay",
+        "galleryURL": "https://i.ebayimg.sandbox.ebay.com/images/g/9RMAAOSwcldmiVx-/s-l140.jpg",
+        "viewItemURL": "https://cgi.sandbox.ebay.com/90-new-ACEMAGIC-AX17-UHD-Laptop-17-3-FHD-Netbook-Intel-N97-16GB-RAM-512GB-SSD-/110588341952",
+        "itemId": "110588341952"
+      }
+    }
+  ]
+}

@@ -2,6 +2,127 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Custom CSS enhancements */
+@layer base {
+  * {
+    @apply scroll-smooth;
+  }
+  
+  body {
+    @apply font-sans antialiased;
+  }
+}
+
+@layer components {
+  /* Line clamp utilities for text truncation */
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* Animation for product cards */
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer utilities {
+  /* Animation utilities */
+  .animate-in {
+    animation: animateIn 0.3s ease-out;
+  }
+  
+  .fade-in-0 {
+    opacity: 0;
+  }
+  
+  .zoom-in-95 {
+    transform: scale(0.95);
+  }
+  
+  /* Glass morphism utilities */
+  .glass {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20;
+  }
+  
+  .glass-dark {
+    @apply bg-gray-900/10 backdrop-blur-lg border border-gray-700/20;
+  }
+  
+  /* Custom gradients */
+  .gradient-primary {
+    @apply bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600;
+  }
+  
+  .gradient-secondary {
+    @apply bg-gradient-to-r from-blue-500 via-cyan-500 to-teal-500;
+  }
+  
+  /* Hover glow effects */
+  .glow-hover {
+    @apply transition-all duration-300 hover:shadow-2xl hover:shadow-indigo-500/25;
+  }
+  
+  .glow-hover-purple {
+    @apply transition-all duration-300 hover:shadow-2xl hover:shadow-purple-500/25;
+  }
+}
+
+/* Keyframes */
+@keyframes animateIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100 dark:bg-gray-800 rounded-full;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 dark:bg-gray-600 rounded-full hover:bg-gray-400 dark:hover:bg-gray-500;
+}
+
+::-webkit-scrollbar-corner {
+  @apply bg-transparent;
+}
+
+/* Selection colors */
+::selection {
+  @apply bg-indigo-500/20 text-indigo-900;
+}
+
+::-moz-selection {
+  @apply bg-indigo-500/20 text-indigo-900;
+}
+
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap');
 
 body {
@@ -16,4 +137,18 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  animation: spin 1s linear infinite;
+  margin: 20px auto;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

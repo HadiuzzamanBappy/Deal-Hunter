@@ -10,9 +10,13 @@ The entire application is containerized with Docker, ensuring a consistent and e
 
 *   **Dual Data Sourcing:** Aggregates data from both stable, official APIs (eBay) and dynamic web scrapers (Puppeteer).
 *   **AI-Powered Summaries:** Leverages the Google Gemini API to analyze search results and provide users with a helpful summary of the best deals.
+*   **Smart Favorites System:** Save products across searches with intelligent duplicate detection and cross-platform product comparison.
 *   **Location-Specific Search:** Allows users to select their country to include results from local e-commerce sites, providing more relevant deals.
+*   **Interactive Product Comparison:** Compare saved favorites with best price highlighting and detailed product analysis.
+*   **Persistent User Data:** Automatic user identification with localStorage-based session management for seamless experience.
 *   **Fully Containerized:** Uses Docker and Docker Compose to run the entire stack (React frontend, Node.js backend) with a single command.
 *   **Modular Backend Architecture:** The backend is built with a scalable and maintainable structure, separating routes, controllers, and services.
+*   **Modern UI/UX:** Glassmorphism design with smooth animations, responsive layouts, and intuitive navigation.
 *   **Live Reloading:** The development environment is configured for hot-reloading on both the frontend and backend, providing a smooth developer experience.
 
 ## 🏗️ How It Works (Architecture)
@@ -27,42 +31,55 @@ The application follows a modern microservice-inspired architecture, orchestrate
 +-----------+       +-------------------------+       +-------+------------+
                           |                                     |
                           | (POST /api/search)                  | (Global Search)
-                          |                                     |
-                          v                                     v
+                          | (GET/POST /api/favorites)           |
+                          |                                     v
 +---------------------------------------------------------------------------------+
 |   Backend (Node.js / Express) (localhost:5001)                                  |
 |                                                                                 |
-|   [Controller] -> [Promise.all] -> [eBay Service]  ---------------------------->+
-|       ^                               |                                         |
-|       |                               +-> [Daraz Scraper Service (Puppeteer)] --> [Daraz.com.bd]
-|       | (Combined Results)                                     (Local Search)   |
+|   [Search Controller] -> [Promise.all] -> [eBay Service]  --------------------->+
+|       ^                                      |                                  |
+|       |                                      +-> [Daraz Scraper Service] -----> [Daraz.com.bd]
+|       | (Combined Results)                              (Puppeteer)             |
 |       +--------------------------- [Gemini Service] <---------------------------+
 |                                         | (AI Summary)                          |
-|                                         v                                       |
-|   <-------------------------------- [Response]                                  |
+|   [Favorites Controller] -> [Favorites Service] -> [JSON Storage]               |
+|       ^                         | (Add/Remove/Compare)    |                    |
+|       | (Favorites CRUD)        v                         v                     |
+|   <-------------------------------- [Response] <----------+                     |
 |                                                                                 |
 +---------------------------------------------------------------------------------+
 ```
 
-1.  The **React Frontend** captures the user's search term and country selection.
-2.  It sends this data to the **Node.js/Express Backend**.
-3.  The **Controller** initiates parallel searches: one to the `ebayService` and, if applicable, another to the `darazService`.
-4.  The `darazService` launches a **Puppeteer** headless browser to scrape the local site.
-5.  `Promise.all` waits for all searches to complete.
-6.  The combined list of products is sent to the `geminiService`.
-7.  The **Gemini AI** returns a text summary.
-8.  The backend bundles the product list and AI summary into a single JSON response for the frontend to display.
+### User Flow:
+1.  **Search Phase:** The **React Frontend** captures the user's search term and country selection.
+2.  **Backend Processing:** Data is sent to the **Node.js/Express Backend** via POST `/api/search`.
+3.  **Parallel Data Fetching:** The **Controller** initiates parallel searches to `ebayService` and conditionally `darazService`.
+4.  **Local Scraping:** The `darazService` launches **Puppeteer** headless browser for local e-commerce scraping.
+5.  **AI Analysis:** Combined results are processed by `geminiService` using **Gemini AI** for intelligent summaries.
+6.  **Favorites Management:** Users can save products via POST `/api/favorites` with intelligent duplicate detection.
+7.  **Data Persistence:** Favorites are stored in JSON files with user identification for cross-session availability.
+8.  **Comparison Features:** GET `/api/favorites` returns organized data for price comparison and product analysis.
 
 ## 🛠️ Technology Stack
 
 | Category          | Technology                                                                          |
 | ----------------- | ----------------------------------------------------------------------------------- |
-| **Frontend**      | React.js, Axios                                                                     |
-| **Backend**       | Node.js, Express.js                                                                 |
-| **Web Scraping**  | Puppeteer (Headless Chrome)                                                         |
-| **AI Services**   | Google Gemini API                                                                   |
+| **Frontend**      | React.js (Hooks), Axios, CSS3 (Glassmorphism Design)                              |
+| **Backend**       | Node.js, Express.js (ES Modules)                                                   |
+| **Data Storage**  | JSON File System, localStorage (Client-side Sessions)                              |
+| **Web Scraping**  | Puppeteer (Headless Chrome)                                                        |
+| **AI Services**   | Google Gemini API                                                                  |
 | **Containerization** | Docker, Docker Compose                                                              |
-| **Dev Tools**     | Nodemon, ESLint, Prettier (recommended)                                             |
+| **Dev Tools**     | Nodemon, ESLint, Prettier (recommended)                                            |
+
+### API Endpoints
+
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `POST` | `/api/search` | Search products across eBay and local sites |
+| `GET`  | `/api/favorites/:userId` | Get user's favorite products |
+| `POST` | `/api/favorites` | Add product to favorites |
+| `DELETE` | `/api/favorites/:userId/:productId` | Remove product from favorites |
 
 ##  Prerequisites
 
@@ -129,6 +146,13 @@ This project is fully containerized. The only command you need is `docker compos
 4.  Wait for the logs to show that both the backend and frontend have started successfully.
 5.  Open your web browser and navigate to: **[http://localhost:3000](http://localhost:3000)**
 
+### Using the Application
+
+1.  **Search Products:** Enter a search term and select your country to find deals across multiple platforms.
+2.  **Save Favorites:** Click the heart icon on any product to add it to your favorites list.
+3.  **Compare Products:** Access your favorites page to compare saved products and find the best deals.
+4.  **Cross-Session Access:** Your favorites are automatically saved and available across browser sessions.
+
 ### Stopping the Application
 
 To stop the containers, press `Ctrl + C` in the terminal where Docker Compose is running, and then run:
@@ -158,17 +182,24 @@ Here are solutions to common issues encountered during the development of this p
 deal-hunter-app/
 ├── backend/
 │   ├── controllers/         # Handles request/response logic
-│   │   └── searchController.js
+│   │   ├── searchController.js
+│   │   └── favoritesController.js
 │   ├── routes/              # Defines API endpoints
-│   │   └── searchRoutes.js
+│   │   ├── searchRoutes.js
+│   │   └── favoritesRoutes.js
 │   ├── services/            # Handles business logic and external API calls
 │   │   ├── ebayService.js
 │   │   ├── darazService.js  # The Puppeteer scraper
-│   │   └── geminiService.js
+│   │   ├── geminiService.js
+│   │   └── favoritesService.js  # Favorites management and storage
+│   ├── data/                # JSON storage for favorites and suggestions
+│   │   ├── favorites.json   # User favorites storage
+│   │   └── suggestions.json # Search suggestions storage
+│   ├── debug/               # Debug and testing utilities
+│   │   └── debug_daraz.js   # Standalone script for testing the scraper
 │   ├── node_modules/
 │   ├── .env                 # (Important!) Holds API keys and secrets
 │   ├── .env.example         # Template for environment variables
-│   ├── debug_daraz.js       # Standalone script for testing the scraper
 │   ├── Dockerfile           # Blueprint for the backend container
 │   ├── package.json
 │   └── server.js            # Main server entry point
@@ -176,23 +207,37 @@ deal-hunter-app/
 ├── frontend/
 │   ├── public/
 │   ├── src/                 # React source code
-│   │   └── App.js           # Main application component
+│   │   ├── components/      # React components
+│   │   │   ├── Results.js   # Product display with favorites
+│   │   │   └── Favorites.js # Favorites management page
+│   │   ├── services/        # Frontend service layer
+│   │   │   ├── userService.js    # User identification
+│   │   │   └── favoritesService.js # Favorites API calls
+│   │   ├── App.js           # Main application component
+│   │   ├── Header.js        # Navigation header
+│   │   └── App.css          # Styling with glassmorphism
 │   ├── node_modules/
 │   ├── Dockerfile           # Blueprint for the frontend container
 │   └── package.json
 │
 ├── .gitignore
 ├── docker-compose.yml       # Orchestrates the multi-container application
+├── PROJECT_CONTEXT.md       # Comprehensive project documentation
 └── README.md                # This file
 ```
 
 ## 🔮 Future Improvements
 
-*   **Add a Database:** Integrate MongoDB to store search results, create user accounts, and save favorite searches.
-*   **Expand Scrapers:** Add more scraper services for other local e-commerce sites (e.g., Amazon, Walmart) and allow the user to choose which ones to include.
-*   **Production Build:** Create a production-ready Docker setup for the frontend using a multi-stage build with Nginx to serve the static files efficiently.
-*   **Error Handling:** Implement more robust error handling and a dedicated logging service.
-*   **UI/UX Enhancements:** Add pagination, sorting, and filtering to the search results page.
+*   **User Authentication:** Implement proper user accounts with secure authentication and cloud-based favorites storage.
+*   **Database Integration:** Migrate from JSON file storage to MongoDB or PostgreSQL for improved performance and scalability.
+*   **Advanced Filters:** Add price range filters, brand filtering, and sorting options for enhanced product discovery.
+*   **Expand Scrapers:** Add more scraper services for other local e-commerce sites (e.g., Amazon, Walmart) with configurable marketplace selection.
+*   **Price Tracking:** Implement price history tracking and alerts for favorite products.
+*   **Recommendation Engine:** Use machine learning to suggest products based on user search and favorites history.
+*   **Mobile App:** Create React Native mobile application for on-the-go deal hunting.
+*   **Production Build:** Create a production-ready Docker setup with Nginx for optimized static file serving.
+*   **Real-time Updates:** Implement WebSocket connections for live price updates and new deal notifications.
+*   **Advanced Analytics:** Add user behavior tracking and product performance analytics for better insights.
 
 ## 📄 License
 

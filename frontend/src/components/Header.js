@@ -1,38 +1,110 @@
-import React from 'react';
 
-const Header = ({ theme, toggleTheme, maxResults, setMaxResults, sortBy, setSortBy, country, setCountry }) => (
-  <header className="rounded-2xl bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-2xl mb-8 py-10 px-6 text-center transition-colors duration-300 backdrop-blur-lg bg-opacity-80 border border-white/20">
-    <h1 className="text-5xl font-extrabold mb-3 tracking-tight drop-shadow-lg flex items-center justify-center gap-2">
-      <span className="inline-block bg-white/20 rounded-full p-2 text-3xl mr-2 animate-bounce">🦾</span>
-      Deal Hunter AI
-    </h1>
-    <p className="text-lg mb-6 opacity-90 font-medium tracking-wide">Intelligent Product Search & Analysis</p>
-    <div className="flex justify-center items-center gap-4 mt-4">
-      <select
-        value={sortBy}
-        onChange={e => setSortBy(e.target.value)}
-        className="px-4 py-3 bg-white/20 dark:bg-gray-800/40 text-gray-900 dark:text-white border-none outline-none rounded-xl font-semibold shadow w-32"
-      >
-        <option value="relevance">↕️ Relevance</option>
-        <option value="price">💰 Price</option>
-        <option value="latest">🆕 Latest</option>
-      </select>
-      <select
-        value={maxResults}
-        onChange={e => setMaxResults(Number(e.target.value))}
-        className="px-4 py-3 bg-white/20 dark:bg-gray-800/40 text-gray-900 dark:text-white border-none outline-none rounded-xl font-semibold shadow w-24"
-      >
-        {[6, 8, 10, 14, 20].map(val => (
-          <option key={val} value={val}>🔢 {val}</option>
-        ))}
-      </select>
-      <button
-        className="ml-2 bg-white/20 hover:bg-white/30 rounded-full p-2 transition-colors shadow-lg border border-white/30 flex items-center justify-center"
-        onClick={toggleTheme}
-        aria-label="Toggle theme"
-      >
-        <span className={`transition-transform duration-500 text-2xl ${theme === 'dark' ? 'rotate-180' : ''}`}>{theme === 'dark' ? '🌞' : '🌙'}</span>
-      </button>
+import React from 'react';
+import UserProfileDropdown from './UserProfileDropdown';
+
+const Header = ({ theme, toggleTheme, maxResults, setMaxResults, sortBy, setSortBy, country, setCountry, onAuthOpen, onFavoritesClick }) => (
+  <header className="relative rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white shadow-2xl mb-8 py-10 px-8 text-center transition-all duration-500 backdrop-blur-xl bg-opacity-90 border border-white/30 z-40 overflow-visible">
+    {/* Enhanced Background Effects */}
+    <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent rounded-3xl"></div>
+  
+    {/* User Profile Dropdown - Optimized positioning */}
+    <div className="absolute top-6 right-8 z-[100]">
+      <UserProfileDropdown onAuthOpen={onAuthOpen} />
+    </div>
+    
+    {/* Main Content Container */}
+    <div className="relative z-10">
+      {/* Title Section */}
+      <div className="mb-8">
+        <h1 className="text-5xl lg:text-6xl font-black mb-4 tracking-tight drop-shadow-2xl">
+          <span className="bg-gradient-to-r from-white via-blue-100 to-purple-100 bg-clip-text text-transparent">
+            Deal Hunter AI
+          </span>
+        </h1>
+        
+        <p className="text-xl lg:text-2xl opacity-95 font-semibold tracking-wide text-blue-100 mb-2">
+          🚀 Intelligent Product Search & Analysis
+        </p>
+      </div>
+      
+      {/* Enhanced Controls Section */}
+      <div className="space-y-6">
+        {/* Primary Controls Row */}
+        <div className="flex flex-wrap justify-center items-center gap-4 lg:gap-6">
+          {/* Sort Control */}
+          <div className="flex items-center gap-3 bg-white/15 backdrop-blur-md rounded-2xl px-5 py-3 border border-white/20 shadow-lg hover:bg-white/20 transition-all duration-200">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">📊</span>
+              <label className="text-sm font-semibold text-blue-100 whitespace-nowrap">Sort:</label>
+            </div>
+            <select
+              value={sortBy}
+              onChange={e => setSortBy(e.target.value)}
+              className="bg-white/25 hover:bg-white/35 text-gray-900 dark:text-white border-none outline-none rounded-xl px-4 py-2 text-sm font-bold shadow transition-all duration-200 cursor-pointer min-w-[130px]"
+            >
+              <option value="relevance">🎯 Relevance</option>
+              <option value="price">💰 Price Low-High</option>
+              <option value="latest">🆕 Latest First</option>
+            </select>
+          </div>
+          
+          {/* Show Control */}
+          <div className="flex items-center gap-3 bg-white/15 backdrop-blur-md rounded-2xl px-5 py-3 border border-white/20 shadow-lg hover:bg-white/20 transition-all duration-200">
+            <div className="flex items-center gap-2">
+              <span className="text-lg">🔢</span>
+              <label className="text-sm font-semibold text-blue-100 whitespace-nowrap">Show:</label>
+            </div>
+            <select
+              value={maxResults}
+              onChange={e => setMaxResults(Number(e.target.value))}
+              className="bg-white/25 hover:bg-white/35 text-gray-900 dark:text-white border-none outline-none rounded-xl px-4 py-2 text-sm font-bold shadow transition-all duration-200 cursor-pointer min-w-[90px]"
+            >
+              {[6, 8, 12, 16, 20].map(val => (
+                <option key={val} value={val}>{val} items</option>
+              ))}
+            </select>
+          </div>
+          
+          {/* Theme Toggle */}
+          <button
+            className="bg-white/15 hover:bg-white/25 rounded-2xl px-4 py-3 transition-all duration-300 shadow-lg border border-white/20 flex items-center justify-center group hover:scale-110 transform active:scale-95"
+            onClick={toggleTheme}
+            aria-label="Toggle theme"
+          >
+            <span className={`transition-all duration-500 text-xl group-hover:scale-110 ${theme === 'dark' ? 'rotate-180' : ''}`}>
+              {theme === 'dark' ? '🌞' : '🌙'}
+            </span>
+          </button>
+          
+          {/* Favorites Button */}
+          <button
+            className="bg-white/15 hover:bg-white/25 rounded-2xl px-4 py-3 transition-all duration-300 shadow-lg border border-white/20 flex items-center gap-2 group hover:scale-105 transform active:scale-95"
+            onClick={onFavoritesClick}
+            aria-label="View favorites"
+          >
+            <span className="text-xl group-hover:scale-110 transition-transform duration-300">❤️</span>
+            <span className="text-sm font-semibold text-blue-100 whitespace-nowrap">Favorites</span>
+          </button>
+        </div>
+        
+        {/* Secondary Info */}
+        <div className="hidden md:flex justify-center items-center gap-4 text-sm text-blue-200/80">
+          <div className="flex items-center gap-1">
+            <span>🌍</span>
+            <span>Global Search</span>
+          </div>
+          <div className="w-1 h-1 bg-blue-200/60 rounded-full"></div>
+          <div className="flex items-center gap-1">
+            <span>⚡</span>
+            <span>Real-time Results</span>
+          </div>
+          <div className="w-1 h-1 bg-blue-200/60 rounded-full"></div>
+          <div className="flex items-center gap-1">
+            <span>💎</span>
+            <span>AI Analysis</span>
+          </div>
+        </div>
+      </div>
     </div>
   </header>
 );

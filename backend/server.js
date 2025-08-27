@@ -5,6 +5,8 @@ import 'dotenv/config'; // Loads environment variables from .env file
 
 // Import the router from our routes file
 import searchRoutes from './routes/searchRoutes.js';
+import suggestionRoutes from './routes/suggestionRoutes.js';
+import favoritesRoutes from './routes/favoritesRoutes.js';
 
 // --- Initialization ---
 const app = express();
@@ -17,6 +19,10 @@ app.use(express.json()); // Allows the server to understand JSON
 // --- API Routes ---
 // Any request to /api/search will be handled by our searchRoutes
 app.use('/api/search', searchRoutes);
+// Any request to /api/suggestions will be handled by our suggestionRoutes
+app.use('/api/suggestions', suggestionRoutes);
+// Any request to /api/favorites will be handled by our favoritesRoutes
+app.use('/api/favorites', favoritesRoutes);
 
 
 // --- Start the Server ---

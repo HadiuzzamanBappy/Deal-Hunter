@@ -2,15 +2,26 @@
 import { searchEbay } from '../services/ebayService.js';
 import { getAiInsights } from '../services/geminiService.js';
 import { searchDaraz } from '../services/darazService.js';
+import searchSuggestionService from '../services/searchSuggestionService.js';
 
 export const handleSearch = async (req, res) => {
-    const { searchTerm, country, maxResults = 12, sortBy = 'relevance', offset = 0, sessionId } = req.body;
+    const { searchTerm, country, maxResults = 12, sortBy = 'relevance', offset = 0, sessionId, userId } = req.body;
 
     // --- LOG #1: What did we receive from the frontend? ---
     console.log('[Controller] Received request body:', req.body);
 
     if (!searchTerm) {
         return res.status(400).json({ error: 'Search term is required' });
+    }
+
+    // Record the search for suggestions
+    if (searchTerm && searchTerm.length >= 2) {
+        try {
+            await searchSuggestionService.recordSearch(searchTerm, userId);
+        } catch (error) {
+            console.error('Error recording search:', error);
+            // Don't fail the main search if recording fails
+        }
     }
 
     // Simple in-memory session store (for demo; use Redis or DB for production)
