@@ -37,6 +37,8 @@ export const searchDaraz = async (keywords) => {
                     const rawViewItemURL = titleElement?.href;
                     const price = priceElement?.textContent.trim();
                     const galleryURL = imageElement?.getAttribute('data-src') || imageElement?.src;
+                    console.log(galleryURL);
+                    
                     
                     // The 'data-item-id' is the best source for a unique ID
                     const itemId = item.dataset.itemId;

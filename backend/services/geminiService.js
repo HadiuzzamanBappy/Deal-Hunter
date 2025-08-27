@@ -7,26 +7,46 @@ const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 export const getAiInsights = async (products, searchTerm) => {
     if (!products || products.length === 0) {
-        return "I couldn't find any listings on eBay for this search. You might want to try a different keyword.";
+        return { summary: "I couldn't find any listings for this search. Try a different keyword.", bestChoiceId: null, secondBestId: null };
     }
 
-    // This is the "prompt" - the instruction we give to the AI
+    // Ask for best and second best choice
     const prompt = `
         You are "Deal Hunter AI", an expert at analyzing product listings to find the best value.
         A user has searched for "${searchTerm}".
-        Here are the top search results from eBay in JSON format: ${JSON.stringify(products)}
+        Here are the top search results in JSON format: ${JSON.stringify(products)}
 
-        Please analyze these listings and provide a short, helpful summary (3-4 sentences) for the user.
-        Focus on identifying the best overall value. Mention if there are significant price differences,
-        and give a friendly tip, like checking seller feedback. Start your response with "Here's the deal:".
+        Please:
+        1. Provide a concise summary (max 2 sentences) for the user, starting with "Here's the deal:".
+        2. Pick the best overall product (itemId) from the list and return its itemId as "bestChoiceId".
+        3. Optionally, pick a second best product and return its itemId as "secondBestId" (if applicable).
+        Respond in JSON format: { "summary": "...", "bestChoiceId": "...", "secondBestId": "..." }
     `;
 
     try {
         const result = await model.generateContent(prompt);
         const response = await result.response;
-        console.log(response);
-        
-        return response.text();
+        let aiJson;
+        try {
+            aiJson = JSON.parse(response.text());
+        } catch (e) {
+            // fallback: try to extract summary and bestChoiceId manually
+            const text = response.text();
+            const summaryMatch = text.match(/Here's the deal:[^\n]*/);
+            const bestIdMatch = text.match(/"bestChoiceId"\s*:\s*"([^"]+)"/);
+            const secondIdMatch = text.match(/"secondBestId"\s*:\s*"([^"]+)"/);
+            return {
+                summary: summaryMatch ? summaryMatch[0] : text,
+                bestChoiceId: bestIdMatch ? bestIdMatch[1] : null,
+                secondBestId: secondIdMatch ? secondIdMatch[1] : null
+            };
+        }
+        // Always return summary, bestChoiceId, and secondBestId (if present)
+        return {
+            summary: aiJson.summary || '',
+            bestChoiceId: aiJson.bestChoiceId || null,
+            secondBestId: aiJson.secondBestId || null
+        };
     } catch (error) {
         console.error("Error fetching from Gemini API:", error);
         throw new Error('Failed to get insights from AI service.');
