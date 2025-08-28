@@ -75,129 +75,96 @@ const Favorites = ({ onBackToSearch }) => {
   const groupedFavorites = groupFavoritesByTitle();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-white to-purple-50 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-purple-100 dark:from-gray-900 dark:via-gray-800 dark:to-indigo-900 py-0">
+      {/* Sticky Navigation Bar */}
+      <div className="sticky top-0 z-30 bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl shadow-lg border-b border-indigo-100 dark:border-gray-800 flex items-center justify-between px-6 py-4">
+        <div className="flex items-center gap-3">
+          <span className="text-2xl">❤️</span>
+          <span className="text-xl font-bold bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">Favorites</span>
+        </div>
+        <button
+          onClick={onBackToSearch}
+          className="px-5 py-2 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-semibold rounded-xl shadow-md transition-all duration-200"
+        >
+          ← Back to Search
+        </button>
+      </div>
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent">
-              ❤️ Your Favorite Deals
-            </span>
-          </h1>
-          <p className="text-gray-600 dark:text-gray-400 text-lg">
-            Manage and compare your saved products
-          </p>
-          <div className="mt-4">
+        {/* Header Section */}
+        <div className="text-center mb-10 mt-10">
+          <div className="inline-block px-8 py-6 rounded-3xl shadow-2xl bg-white/80 dark:bg-gray-800/80 backdrop-blur-xl border border-white/20 dark:border-gray-700/20">
+            <h1 className="text-4xl font-extrabold mb-2 bg-gradient-to-r from-indigo-600 via-purple-600 to-pink-600 bg-clip-text text-transparent flex items-center justify-center gap-2">
+              <span>❤️</span> Your Favorite Deals
+            </h1>
+            <p className="text-gray-600 dark:text-gray-400 text-lg mb-2">Compare, manage, and shop your saved products</p>
             <span className="px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-bold rounded-full border border-indigo-200/50 dark:border-indigo-800/50">
-              {favorites.length} Favorites Saved
+              {favorites.length} Saved
             </span>
           </div>
         </div>
 
+        {/* Empty State */}
         {favorites.length === 0 ? (
-          <div className="text-center py-16">
-            <div className="bg-white dark:bg-gray-800 rounded-3xl shadow-lg p-12 max-w-md mx-auto">
-              <div className="text-6xl mb-6">💔</div>
-              <h3 className="text-xl font-semibold text-gray-900 dark:text-white mb-4">
-                No Favorites Yet
-              </h3>
-              <p className="text-gray-600 dark:text-gray-400 mb-6">
-                Start adding products to your favorites to see them here!
-              </p>
+          <div className="flex flex-col items-center justify-center py-24">
+            <div className="bg-white/90 dark:bg-gray-800/90 rounded-3xl shadow-2xl p-12 max-w-md mx-auto flex flex-col items-center">
+              <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" alt="No favorites" className="w-24 h-24 mb-6 opacity-80" />
+              <h3 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">No Favorites Yet</h3>
+              <p className="text-gray-600 dark:text-gray-400 mb-6 text-center">Start adding products to your favorites to see them here!</p>
               <button
                 onClick={onBackToSearch}
-                className="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg transition-colors duration-200"
+                className="px-6 py-3 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 text-white font-medium rounded-xl shadow-md transition-all duration-200"
               >
                 Start Shopping
               </button>
             </div>
           </div>
         ) : (
-          <div className="space-y-12">
+          <div className="flex flex-wrap gap-4 ">
             {Object.entries(groupedFavorites).map(([titleKey, groupedFavs]) => (
-              <div key={titleKey} className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
-                <div className="mb-6">
-                  <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
-                    {groupedFavs[0].product.title}
-                  </h2>
-                  {groupedFavs.length > 1 && (
-                    <p className="text-sm text-gray-600 dark:text-gray-400">
-                      {groupedFavs.length} price options found - sorted by price
-                    </p>
-                  )}
-                </div>
-                
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-                  {groupedFavs.map((favorite, index) => (
-                    <div
-                      key={favorite.id}
-                      className="relative rounded-xl border-2 border-gray-200 dark:border-gray-700 overflow-hidden hover:border-indigo-300 dark:hover:border-indigo-600 transition-colors duration-300"
+              <div key={titleKey} className="mb-8">
+                {groupedFavs.map((favorite, index) => (
+                  <div
+                    key={favorite.id}
+                    className="flex items-center bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-all duration-200 px-3 py-2 min-w-[260px] max-w-xs w-full"
+                  >
+                    <a
+                      href={favorite.product.viewItemURL}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex items-center gap-3 flex-1"
                     >
-                      {/* Best Price Badge */}
-                      {index === 0 && groupedFavs.length > 1 && (
-                        <div className="absolute top-3 left-3 z-10">
-                          <span className="bg-green-500 text-white px-2 py-1 rounded-lg text-xs font-bold">
-                            💰 Best Price
-                          </span>
-                        </div>
+                      <img
+                        src={favorite.product.galleryURL || 'https://placehold.co/80x80'}
+                        alt={favorite.product.title}
+                        className="w-16 h-16 object-cover rounded-lg border border-gray-100 dark:border-gray-900"
+                        loading="lazy"
+                      />
+                      <div className="flex flex-col justify-center">
+                        <div className="text-sm font-semibold text-gray-900 dark:text-white truncate max-w-[120px]">{favorite.product.title}</div>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">{favorite.product.source}</div>
+                        <div className="text-base font-bold text-indigo-600 dark:text-indigo-400">{favorite.product.price}</div>
+                      </div>
+                    </a>
+                    <button
+                      onClick={() => handleRemoveFavorite(favorite.id, favorite.productId)}
+                      disabled={removing[favorite.id]}
+                      className="ml-2 p-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow transition-colors duration-200 disabled:opacity-50"
+                      title="Remove from favorites"
+                    >
+                      {removing[favorite.id] ? (
+                        <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
+                          <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
+                          <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
+                        </svg>
+                      ) : (
+                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                        </svg>
                       )}
-                      
-                      {/* Remove Button */}
-                      <button
-                        onClick={() => handleRemoveFavorite(favorite.id, favorite.productId)}
-                        disabled={removing[favorite.id]}
-                        className="absolute top-3 right-3 z-10 p-2 bg-red-500 hover:bg-red-600 text-white rounded-full shadow-lg transition-colors duration-200 disabled:opacity-50"
-                      >
-                        {removing[favorite.id] ? (
-                          <svg className="w-4 h-4 animate-spin" fill="none" viewBox="0 0 24 24">
-                            <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"/>
-                            <path className="opacity-75" fill="currentColor" d="m4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"/>
-                          </svg>
-                        ) : (
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-                          </svg>
-                        )}
-                      </button>
-
-                      <a
-                        href={favorite.product.viewItemURL}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="block"
-                      >
-                        <img
-                          src={favorite.product.galleryURL || 'https://placehold.co/400x300'}
-                          alt={favorite.product.title}
-                          className="w-full h-48 object-cover"
-                          loading="lazy"
-                        />
-                        
-                        <div className="p-4">
-                          <div className="flex items-center justify-between mb-2">
-                            <span className="text-sm font-medium text-gray-600 dark:text-gray-400">
-                              {favorite.product.source}
-                            </span>
-                            <span className="text-xs text-gray-500 dark:text-gray-400">
-                              Added {new Date(favorite.addedAt).toLocaleDateString()}
-                            </span>
-                          </div>
-                          
-                          <div className="text-lg font-bold text-indigo-600 dark:text-indigo-400 mb-3">
-                            {favorite.product.price}
-                          </div>
-                          
-                          <div className="flex items-center gap-2 text-gray-500 dark:text-gray-400 text-sm">
-                            <span>Visit {favorite.product.source}</span>
-                            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                            </svg>
-                          </div>
-                        </div>
-                      </a>
-                    </div>
-                  ))}
-                </div>
+                    </button>
+                  </div>
+                ))}
               </div>
             ))}
           </div>

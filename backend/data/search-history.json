@@ -2,6 +2,136 @@
   "searches": [
     {
       "query": "face wash",
+      "timestamp": 1756364398358,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "face wash",
+      "timestamp": 1756364342710,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756364294198,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756364226320,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756364136167,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756363679082,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "facewash",
+      "timestamp": 1756363268676,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756363217913,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756362711709,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756362701355,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "face wash",
+      "timestamp": 1756362691083,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756361677340,
+      "userId": null
+    },
+    {
+      "query": "face",
+      "timestamp": 1756361502697,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756361447579,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756361314391,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756361274715,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756361003584,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "fac",
+      "timestamp": 1756359857792,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "Laptop",
+      "timestamp": 1756359660494,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "Laptop",
+      "timestamp": 1756359607036,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "Laptop",
+      "timestamp": 1756359580093,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "Laptop",
+      "timestamp": 1756358611645,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "Laptop",
+      "timestamp": 1756358516552,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "Laptop",
+      "timestamp": 1756356155170,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756356139983,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "best gaming laptop 2024",
+      "timestamp": 1756356110591,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "face wash",
       "timestamp": 1756327773424,
       "userId": "TTSM2WsFgyPTdyHLp4f60c0xvha2"
     },
@@ -702,7 +832,7 @@
     }
   ],
   "popularSearches": {
-    "laptop": 96,
+    "laptop": 114,
     "wireless headphones": 4,
     "gaming laptop": 4,
     "dfhdfhdf": 1,
@@ -711,10 +841,13 @@
     "laptop under 100": 1,
     "wireless headphones under $100": 11,
     "wireless headphones under 100": 1,
-    "best gaming laptop 2024": 12,
+    "best gaming laptop 2024": 14,
     "smartphone": 3,
     "coffee maker": 1,
     "phone": 3,
-    "face wash": 1
+    "face wash": 4,
+    "fac": 1,
+    "face": 1,
+    "facewash": 1
   }
 }

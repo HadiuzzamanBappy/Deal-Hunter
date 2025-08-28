@@ -1,9 +1,13 @@
 // services/geminiService.js
 import { GoogleGenerativeAI } from '@google/generative-ai';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 // Initialize the client once and reuse it
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
 
 // New function to extract specific product name from user input
 export const extractProductName = async (userInput) => {
@@ -85,7 +89,14 @@ export const getAiInsights = async (products, searchTerm) => {
         const response = await result.response;
         let aiJson;
         try {
-            aiJson = JSON.parse(response.text());
+            let text = response.text();
+            
+            // Remove markdown code block wrapper if present
+            if (text.includes('```json')) {
+                text = text.replace(/```json\n?/g, '').replace(/```\n?/g, '');
+            }
+            
+            aiJson = JSON.parse(text.trim());
         } catch (e) {
             // Enhanced fallback parsing
             const text = response.text();

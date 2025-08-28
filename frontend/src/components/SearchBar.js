@@ -34,7 +34,7 @@ const SearchBar = ({ searchTerm, setSearchTerm, country, setCountry, availableCo
         <div className="mb-16 flex justify-center relative z-10 px-4">
             <div className="w-full max-w-5xl">
                 <form onSubmit={handleSearch} className="relative">
-                    <div className="flex flex-col lg:flex-row gap-4 bg-white/90 dark:bg-gray-900/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/20 p-3 transition-all duration-300 hover:shadow-3xl">
+                    <div className="flex flex-col lg:flex-row gap-4 bg-white/90 dark:bg-gray-800/90 backdrop-blur-xl rounded-3xl shadow-2xl border border-white/20 dark:border-gray-700/20 p-3 transition-all duration-300 hover:shadow-3xl">
                         
                         {/* Search Input Container */}
                         <div className="flex-1 relative">

@@ -27,7 +27,20 @@ function MainApp() {
   const [offset, setOffset] = useState(0);
   const [totalCount, setTotalCount] = useState(0);
   const [isLoading, setIsLoading] = useState(false);
-  const [loadingMessage, setLoadingMessage] = useState('');
+  // Search progress tracking
+  const [searchProgress, setSearchProgress] = useState(0);
+  const [currentStep, setCurrentStep] = useState('');
+
+  const searchSteps = [
+    { id: 1, name: '🔍 Analyzing search term', progress: 10 },
+    { id: 2, name: '🤖 AI refining product name', progress: 25 },
+    { id: 3, name: '🌐 Fetching from APIs', progress: 45 },
+    { id: 4, name: '🔧 Filtering relevant products', progress: 65 },
+    { id: 5, name: '💰 Converting currencies', progress: 80 },
+    { id: 6, name: '🧠 AI analyzing best deals', progress: 95 },
+    { id: 7, name: '✅ Preparing results', progress: 100 }
+  ];
+
   const [error, setError] = useState('');
   // ...existing code...
   // Auth modal state
@@ -92,34 +105,23 @@ function MainApp() {
   const [sortBy, setSortBy] = useState('relevance');
   // ...existing code...
 
-  const getLoadingMessages = (searchTerm, country) => {
-    const messages = [
-      `🔍 Scanning ${country === 'BD' ? 'Bangladesh' : country === 'US' ? 'US' : 'global'} markets for "${searchTerm}"...`,
-      `🤖 AI is analyzing thousands of "${searchTerm}" products...`,
-      `⚡ Comparing prices from multiple sources...`,
-      `🎯 Finding the best deals on "${searchTerm}"...`,
-      `💡 Our smart algorithms are working hard...`,
-      `🚀 Hunting for unbeatable prices...`,
-      `🔥 Discovering hot deals just for you...`,
-      `💰 Calculating the best value options...`,
-      `📊 Cross-referencing product ratings...`,
-      `🛒 Almost done finding your perfect match...`
-    ];
-    return messages;
-  };
+  const simulateSearchProgress = () => {
+    let stepIndex = 0;
+    setSearchProgress(0);
+    setCurrentStep(searchSteps[0].name);
 
-  const startLoadingAnimation = (searchTerm, country) => {
-    const messages = getLoadingMessages(searchTerm, country);
-    let index = 0;
-    
-    setLoadingMessage(messages[0]);
-    
-    const interval = setInterval(() => {
-      index = (index + 1) % messages.length;
-      setLoadingMessage(messages[index]);
-    }, 2000); // Change message every 2 seconds
-    
-    return interval;
+    const progressInterval = setInterval(() => {
+      if (stepIndex < searchSteps.length) {
+        const step = searchSteps[stepIndex];
+        setCurrentStep(step.name);
+        setSearchProgress(step.progress);
+        stepIndex++;
+      } else {
+        clearInterval(progressInterval);
+      }
+    }, 1500); // Change step every 1.5 seconds
+
+    return progressInterval;
   };
 
   const handleSearch = async (e) => {
@@ -134,8 +136,8 @@ function MainApp() {
     setTotalCount(0);
     setVisibleProducts([]);
     
-    // Start loading animation
-    const loadingInterval = startLoadingAnimation(searchTerm, country);
+    // Start progress simulation
+    const progressInterval = simulateSearchProgress();
 
     try {
       const apiUrl = process.env.REACT_APP_API_URL || 'http://localhost:5001';
@@ -147,6 +149,10 @@ function MainApp() {
         offset: 0,
         userId: user?.uid || null
       });
+
+      clearInterval(progressInterval);
+      setSearchProgress(100);
+      setCurrentStep('✅ Search complete!');
       
       console.log('Search response:', response.data); // Debug log
       
@@ -183,12 +189,13 @@ function MainApp() {
       setTotalCount(finalList.length);
       setVisibleProducts(finalList.slice(0, maxResults));
     } catch (err) {
-      console.error('Search error:', err); // Debug log
+      clearInterval(progressInterval);
+      console.error('Search error:', err);
       setError(err.response?.data?.error || 'An unexpected error occurred.');
     } finally {
-      clearInterval(loadingInterval); // Stop loading animation
       setIsLoading(false);
-      setLoadingMessage('');
+      setSearchProgress(0);
+      setCurrentStep('');
     }
   };
 
@@ -263,7 +270,7 @@ function MainApp() {
               </>
             )}
 
-            {/* Enhanced Loading State with Dynamic Messages */}
+            {/* Enhanced Loading State with Animated Progress */}
             {isLoading && (
               <div className="flex flex-col items-center justify-center my-16 px-8">
                 <div className="relative mb-8">
@@ -280,8 +287,31 @@ function MainApp() {
                 <div className="text-center max-w-md">
                   <div className="bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
                     <h3 className="text-xl font-bold text-gray-700 dark:text-gray-300 mb-3">
-                      {loadingMessage || '🔍 Searching for the best deals...'}
+                      Deal Hunter AI in Action
                     </h3>
+                    
+                    {/* Current Step Display */}
+                    <div className="mb-4">
+                      <p className="text-sm font-medium text-gray-600 dark:text-gray-400 mb-2">
+                        {currentStep || '🔍 Preparing search...'}
+                      </p>
+                    </div>
+                    
+                    {/* Animated Progress Bar */}
+                    <div className="mb-4">
+                      <div className="flex items-center justify-between text-xs text-gray-500 dark:text-gray-400 mb-1">
+                        <span>Progress</span>
+                        <span>{searchProgress}%</span>
+                      </div>
+                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
+                        <div 
+                          className="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 h-2 rounded-full transition-all duration-500 ease-out"
+                          style={{ width: `${searchProgress}%` }}
+                        ></div>
+                      </div>
+                    </div>
+                    
+                    {/* Bouncing Dots */}
                     <div className="flex items-center justify-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <div className="flex gap-1">
                         <div className="w-2 h-2 bg-indigo-500 rounded-full animate-bounce"></div>
@@ -291,14 +321,9 @@ function MainApp() {
                       <span>Processing your request</span>
                     </div>
                     
-                    {/* Progress Indicators */}
-                    <div className="mt-4 space-y-2">
-                      <div className="flex items-center gap-3 text-xs text-gray-600 dark:text-gray-400">
-                        <div className="flex-1 bg-gray-200 dark:bg-gray-700 rounded-full h-1">
-                          <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-1 rounded-full animate-pulse" style={{width: '85%'}}></div>
-                        </div>
-                        <span>85%</span>
-                      </div>
+                    {/* Search Term Display */}
+                    <div className="mt-3 text-xs text-gray-400 dark:text-gray-500">
+                      Searching for: <span className="font-medium text-indigo-600 dark:text-indigo-400">"{searchTerm}"</span>
                     </div>
                   </div>
                 </div>

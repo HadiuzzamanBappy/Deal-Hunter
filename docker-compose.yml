@@ -17,7 +17,7 @@ services:
       # from being overwritten by a local node_modules folder (if one exists).
       - /usr/src/app/node_modules
     env_file:
-      - ./backend/.env.local # This tells Compose to load environment variables from your .env file
+      - ./backend/.env # This tells Compose to load environment variables from your .env file
 
   # The Frontend Service
   frontend:
