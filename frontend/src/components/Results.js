@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { toggleFavorite, checkFavoritesStatus } from '../services/favoritesService.js';
 
-const Results = ({ results, allProducts, totalCount, onLoadMore, isLoading, allLoaded }) => {
+const Results = ({ results, allProducts, totalCount, onLoadMore, isLoading, allLoaded, user }) => {
   const [favorites, setFavorites] = useState({});
   const [loadingFavorites, setLoadingFavorites] = useState({});
 
@@ -116,15 +116,31 @@ const Results = ({ results, allProducts, totalCount, onLoadMore, isLoading, allL
               )}
               
               <div className="flex flex-wrap items-center gap-3">
-                <span className="px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-bold rounded-full border border-indigo-200/50 dark:border-indigo-800/50">
-                  💎 AI-Powered Analysis
-                </span>
-                <span className="px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-300 text-sm font-bold rounded-full border border-purple-200/50 dark:border-purple-800/50">
-                  ⚡ Live Market Data
-                </span>
-                <span className="px-4 py-2 bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 text-pink-700 dark:text-pink-300 text-sm font-bold rounded-full border border-pink-200/50 dark:border-pink-800/50">
-                  🎯 Best Deals First
-                </span>
+                {user ? (
+                  <>
+                    <span className="px-4 py-2 bg-gradient-to-r from-indigo-100 to-purple-100 dark:from-indigo-900/30 dark:to-purple-900/30 text-indigo-700 dark:text-indigo-300 text-sm font-bold rounded-full border border-indigo-200/50 dark:border-indigo-800/50">
+                      💎 AI-Powered Analysis
+                    </span>
+                    <span className="px-4 py-2 bg-gradient-to-r from-purple-100 to-pink-100 dark:from-purple-900/30 dark:to-pink-900/30 text-purple-700 dark:text-purple-300 text-sm font-bold rounded-full border border-purple-200/50 dark:border-purple-800/50">
+                      ⚡ Live Market Data
+                    </span>
+                    <span className="px-4 py-2 bg-gradient-to-r from-pink-100 to-rose-100 dark:from-pink-900/30 dark:to-rose-900/30 text-pink-700 dark:text-pink-300 text-sm font-bold rounded-full border border-pink-200/50 dark:border-pink-800/50">
+                      🎯 Best Deals First
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <span className="px-4 py-2 bg-gradient-to-r from-yellow-100 to-orange-100 dark:from-yellow-900/30 dark:to-orange-900/30 text-yellow-700 dark:text-yellow-300 text-sm font-bold rounded-full border border-yellow-200/50 dark:border-yellow-800/50">
+                      🔒 AI Features Locked
+                    </span>
+                    <span className="px-4 py-2 bg-gradient-to-r from-orange-100 to-red-100 dark:from-orange-900/30 dark:to-red-900/30 text-orange-700 dark:text-orange-300 text-sm font-bold rounded-full border border-orange-200/50 dark:border-orange-800/50">
+                      📊 Basic Search Results
+                    </span>
+                    <span className="px-4 py-2 bg-gradient-to-r from-red-100 to-pink-100 dark:from-red-900/30 dark:to-pink-900/30 text-red-700 dark:text-red-300 text-sm font-bold rounded-full border border-red-200/50 dark:border-red-800/50">
+                      🚀 Sign In to Unlock
+                    </span>
+                  </>
+                )}
               </div>
             </div>
           </div>

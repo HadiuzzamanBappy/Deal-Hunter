@@ -11,6 +11,39 @@ import { convertPriceForCountry, detectCurrencyFromPrice } from '../utils/curren
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Helper function to filter products by search keywords
+const filterProductsByKeywords = (products, searchTerm) => {
+    if (!searchTerm || !products || products.length === 0) {
+        return products;
+    }
+
+    // Extract individual keywords from search term
+    const keywords = searchTerm
+        .toLowerCase()
+        .split(/\s+/)
+        .map(word => word.replace(/[^\w]/g, '')) // Remove special characters
+        .filter(word => word.length >= 2); // Only consider words with 2+ characters
+
+    console.log('   Filtering keywords:', keywords);
+
+    // Filter products that contain at least one keyword in their title
+    const filteredProducts = products.filter(product => {
+        if (!product.title) return false;        
+        
+        const productTitle = product.title.toLowerCase();
+        
+        // Check if any keyword exists in the product title
+        const hasKeyword = keywords.some(keyword => 
+            productTitle.includes(keyword)
+        );
+        
+        return hasKeyword;
+    });
+
+    console.log(`   Keyword filtering: ${products.length} → ${filteredProducts.length} products`);
+    return filteredProducts;
+};
+
 // Load and prepare search providers
 const loadSearchProviders = async () => {
   try {
@@ -66,9 +99,18 @@ export const handleSearch = async (req, res) => {
     console.log('🔹 STEP 1: Received user input');
     console.log('   Search Term:', searchTerm);
     console.log('   Country:', country);
+    console.log('   User ID:', userId || 'Not logged in');
 
     if (!searchTerm) {
         return res.status(400).json({ error: 'Search term is required' });
+    }
+
+    // Check if user is authenticated for AI features
+    const isUserLoggedIn = userId && userId !== null;
+    const useAI = isUserLoggedIn;
+    
+    if (!useAI) {
+        console.log('⚠️  AI features disabled - User not logged in');
     }
 
     // Record search for suggestions
@@ -85,18 +127,30 @@ export const handleSearch = async (req, res) => {
     
     try {
         if (!sessionId) {
-            // STEP 2: Give input to AI for search term refinement
-            console.log('🔹 STEP 2: Sending to AI for product name extraction...');
-            console.log('   Input:', searchTerm);
+            // STEP 2: Give input to AI for search term refinement (only if user is logged in)
+            let refinedProductName = searchTerm; // Default to original search term
             
-            const refinedProductName = await extractProductName(searchTerm);
-            
-            console.log('   AI Response:', refinedProductName);
-            console.log('✅ STEP 2 Complete: AI refined search term');
+            if (useAI) {
+                console.log('🔹 STEP 2: Sending to AI for product name extraction...');
+                console.log('   Input:', searchTerm);
+                
+                try {
+                    refinedProductName = await extractProductName(searchTerm);
+                    console.log('   AI Response:', refinedProductName);
+                    console.log('✅ STEP 2 Complete: AI refined search term');
+                } catch (error) {
+                    console.log('⚠️  AI refinement failed, using original term:', error.message);
+                    refinedProductName = searchTerm;
+                }
+            } else {
+                console.log('🔹 STEP 2: Skipped AI refinement (user not logged in)');
+                console.log('   Using original search term:', searchTerm);
+                console.log('✅ STEP 2 Complete: No AI refinement needed');
+            }
 
             // Wait for providers to load if they haven't yet
             let retries = 0;
-            while (searchProviders.length === 0 && retries < 10) {
+            while (searchProviders.length === 0 && retries < 30) {
                 console.log('   Waiting for providers to load...');
                 await new Promise(resolve => setTimeout(resolve, 100));
                 retries++;
@@ -151,10 +205,15 @@ export const handleSearch = async (req, res) => {
             console.log(`   Results: ${searchResults.map((result, i) => `${availableProviders[i].name}: ${result.length}`).join(', ')}`);
             console.log(`✅ STEP 3 Complete: ${allProducts.length} total products found`);
 
+            // STEP 3.5: Filter products by search keywords
+            console.log('🔹 STEP 3.5: Filtering products by search keywords...');
+            const keywordFilteredProducts = filterProductsByKeywords(allProducts, searchTerm);
+            console.log(`✅ STEP 3.5 Complete: Filtered to ${keywordFilteredProducts.length} relevant products`);
+
             // STEP 4: Create structured product array with currency conversion
             console.log('🔹 STEP 4: Creating structured product array...');
             
-            const structuredProducts = allProducts.map(product => {
+            const structuredProducts = keywordFilteredProducts.map(product => {
                 // Detect original currency and convert to country currency
                 const originalCurrency = detectCurrencyFromPrice(product.price);
                 const convertedPrice = convertPriceForCountry(product.price, originalCurrency, country);
@@ -193,40 +252,54 @@ export const handleSearch = async (req, res) => {
             // Get first batch for AI analysis
             const batch = structuredProducts.slice(offset, offset + maxResults);
 
-            // STEP 5: Send to AI for analysis and get best 2 recommendations + summary
-            console.log('🔹 STEP 5: Sending products to AI for analysis...');
-            
-            const aiAnalysisData = batch.map(p => ({
-                itemId: p.itemId,
-                title: p.title,
-                price: p.price,
-                source: p.source,
-                viewItemURL: p.viewItemURL,
-                priceNumeric: p.priceNumeric,
-                originalQuery: searchTerm,
-                refinedQuery: refinedProductName
-            }));
-
-            console.log(`   Sending ${aiAnalysisData.length} products to AI...`);
-            
+            // STEP 5: Send to AI for analysis and get best 2 recommendations + summary (only if user is logged in)
             let aiResult;
-            try {
-                aiResult = await getAiInsights(aiAnalysisData, refinedProductName);
-                console.log('   AI Response:');
-                console.log(`   - Best Choice: ${aiResult.bestChoiceId}`);
-                console.log(`   - Second Best: ${aiResult.secondBestId}`);
-                console.log(`   - Summary: ${aiResult.summary?.substring(0, 100)}...`);
-                console.log('✅ STEP 5 Complete: AI analysis done');
-            } catch (error) {
-                console.error('⚠️  AI analysis failed, using fallback:', error.message);
-                // Fallback: Use simple price-based analysis
-                const sortedByPrice = [...aiAnalysisData].sort((a, b) => a.priceNumeric - b.priceNumeric);
+            
+            if (useAI) {
+                console.log('🔹 STEP 5: Sending products to AI for analysis...');
+                
+                const aiAnalysisData = batch.map(p => ({
+                    itemId: p.itemId,
+                    title: p.title,
+                    price: p.price,
+                    source: p.source,
+                    viewItemURL: p.viewItemURL,
+                    priceNumeric: p.priceNumeric,
+                    originalQuery: searchTerm,
+                    refinedQuery: refinedProductName
+                }));
+
+                console.log(`   Sending ${aiAnalysisData.length} products to AI...`);
+                
+                try {
+                    aiResult = await getAiInsights(aiAnalysisData, refinedProductName);
+                    console.log('   AI Response:');
+                    console.log(`   - Best Choice: ${aiResult.bestChoiceId}`);
+                    console.log(`   - Second Best: ${aiResult.secondBestId}`);
+                    console.log(`   - Summary: ${aiResult.summary?.substring(0, 100)}...`);
+                    console.log('✅ STEP 5 Complete: AI analysis done');
+                } catch (error) {
+                    console.error('⚠️  AI analysis failed, using fallback:', error.message);
+                    // Fallback: Use simple price-based analysis
+                    const sortedByPrice = [...batch].sort((a, b) => a.priceNumeric - b.priceNumeric);
+                    aiResult = {
+                        summary: `Found ${batch.length} products for "${refinedProductName}". Prices range from ${sortedByPrice[0]?.price} to ${sortedByPrice[sortedByPrice.length - 1]?.price}. Compare features and choose what fits your needs best.`,
+                        bestChoiceId: sortedByPrice[0]?.itemId || null,
+                        secondBestId: sortedByPrice[1]?.itemId || null
+                    };
+                    console.log('✅ STEP 5 Complete: Using fallback analysis');
+                }
+            } else {
+                console.log('🔹 STEP 5: Skipped AI analysis (user not logged in)');
+                // No AI analysis for non-logged-in users - simple fallback
+                const sortedByPrice = [...batch].sort((a, b) => a.priceNumeric - b.priceNumeric);
                 aiResult = {
-                    summary: `Here's the deal: Found ${aiAnalysisData.length} products for "${refinedProductName}". Prices range from ${sortedByPrice[0]?.price} to ${sortedByPrice[sortedByPrice.length - 1]?.price}. Compare features and choose what fits your needs best.`,
-                    bestChoiceId: sortedByPrice[0]?.itemId || null,
-                    secondBestId: sortedByPrice[1]?.itemId || null
+                    summary: `Found ${batch.length} products for "${searchTerm}". Sign in to get AI-powered recommendations and detailed analysis! For now, products are sorted by your selected preference.`,
+                    bestChoiceId: null, // No AI recommendations
+                    secondBestId: null,
+                    aiDisabled: true
                 };
-                console.log('✅ STEP 5 Complete: Using fallback analysis');
+                console.log('✅ STEP 5 Complete: No AI analysis for non-logged-in users');
             }
 
             // STEP 6: Label products and show to user
@@ -291,7 +364,7 @@ export const handleSearch = async (req, res) => {
             
             const batch = allProducts.slice(offset, offset + maxResults);
             
-            // Get AI analysis for this batch with fallback
+            // Prepare data for potential AI analysis
             const aiAnalysisData = batch.map(p => ({
                 itemId: p.itemId,
                 title: p.title,
@@ -303,17 +376,29 @@ export const handleSearch = async (req, res) => {
                 refinedQuery: session.refinedSearchTerm
             }));
             
+            // Get AI analysis for this batch with fallback (only if user is logged in)
             let aiResult;
-            try {
-                aiResult = await getAiInsights(aiAnalysisData, session.refinedSearchTerm || session.searchTerm);
-            } catch (error) {
-                console.error('⚠️  AI analysis failed for session, using fallback:', error.message);
-                // Fallback: Use simple price-based analysis
-                const sortedByPrice = [...aiAnalysisData].sort((a, b) => a.priceNumeric - b.priceNumeric);
+            
+            if (useAI) {
+                try {
+                    aiResult = await getAiInsights(aiAnalysisData, session.refinedSearchTerm || session.searchTerm);
+                } catch (error) {
+                    console.error('⚠️  AI analysis failed for session, using fallback:', error.message);
+                    // Fallback: Use simple price-based analysis
+                    const sortedByPrice = [...aiAnalysisData].sort((a, b) => a.priceNumeric - b.priceNumeric);
+                    aiResult = {
+                        summary: `Here's the deal: Found ${aiAnalysisData.length} products. Browse through the options to find what works best for you.`,
+                        bestChoiceId: sortedByPrice[0]?.itemId || null,
+                        secondBestId: sortedByPrice[1]?.itemId || null
+                    };
+                }
+            } else {
+                // No AI for non-logged-in users
                 aiResult = {
-                    summary: `Here's the deal: Found ${aiAnalysisData.length} products. Browse through the options to find what works best for you.`,
-                    bestChoiceId: sortedByPrice[0]?.itemId || null,
-                    secondBestId: sortedByPrice[1]?.itemId || null
+                    summary: `Found ${aiAnalysisData.length} products for "${session.searchTerm}". Sign in to get AI-powered recommendations and detailed analysis!`,
+                    bestChoiceId: null,
+                    secondBestId: null,
+                    aiDisabled: true
                 };
             }
             
@@ -367,7 +452,7 @@ export const getAvailableCountries = async (req, res) => {
         
         // Wait for providers to load if they haven't yet
         let retries = 0;
-        while (searchProviders.length === 0 && retries < 10) {
+        while (searchProviders.length === 0 && retries < 30) {
             console.log('   Waiting for providers to load...');
             await new Promise(resolve => setTimeout(resolve, 100));
             retries++;

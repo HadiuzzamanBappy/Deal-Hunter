@@ -6,7 +6,7 @@
     "countries": ["Global"],
     "config": {
       "apiUrl": "https://svcs.sandbox.ebay.com/services/search/FindingService/v1",
-      "maxResults": 10,
+      "maxResults": 30,
       "params": {
         "OPERATION-NAME": "findItemsByKeywords",
         "SERVICE-VERSION": "1.0.0",
@@ -35,7 +35,7 @@
     "config": {
       "baseUrl": "https://www.daraz.com.bd",
       "searchUrl": "https://www.daraz.com.bd/catalog/?q=__KEYWORDS__",
-      "maxResults": 10,
+      "maxResults": 30,
       "productCardSelector": "[data-qa-locator='product-item']",
       "mapper": {
         "fields": {
@@ -56,7 +56,7 @@
     "config": {
       "baseUrl": "https://othoba.com",
       "searchUrl": "https://othoba.com/ts/search/__KEYWORDS__?t=t&q=__KEYWORDS__",
-      "maxResults": 10,
+      "maxResults": 30,
       "productCardSelector": ".product",
       "mapper": {
         "fields": {

@@ -245,6 +245,7 @@ function MainApp() {
           setCountry={setCountry}
           onAuthOpen={() => { setAuthScreen('signin'); setAuthModalOpen(true); }}
           onFavoritesClick={handleFavoritesClick}
+          user={user}
         />
         
         <EmailVerificationNotice />
@@ -358,6 +359,7 @@ function MainApp() {
               onLoadMore={handleLoadMore}
               isLoading={isLoading}
               allLoaded={visibleProducts.length >= allProducts.length}
+              user={user}
             />
           </>
         ) : (

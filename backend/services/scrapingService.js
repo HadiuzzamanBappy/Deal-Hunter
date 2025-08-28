@@ -28,7 +28,7 @@ export const executeScraping = async (provider, keywords) => {
 
         const products = await page.$$eval(productCardSelector, (items, providerConfig) => {
             const results = [];
-            const itemsToScrape = items.slice(0, providerConfig.maxResults || 10);
+            const itemsToScrape = items.slice(0, providerConfig.maxResults || 30);
             const { fields } = providerConfig.mapper;
 
             itemsToScrape.forEach(item => {

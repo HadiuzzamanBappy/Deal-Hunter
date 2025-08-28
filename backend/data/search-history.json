@@ -1,6 +1,66 @@
 {
   "searches": [
     {
+      "query": "laptop",
+      "timestamp": 1756366475033,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "phone",
+      "timestamp": 1756366326687,
+      "userId": null
+    },
+    {
+      "query": "face wash",
+      "timestamp": 1756366317490,
+      "userId": null
+    },
+    {
+      "query": "laptop",
+      "timestamp": 1756366250420,
+      "userId": null
+    },
+    {
+      "query": "facewash",
+      "timestamp": 1756365784683,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "facewash",
+      "timestamp": 1756365749422,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "facewash",
+      "timestamp": 1756365643055,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "facewash",
+      "timestamp": 1756365437477,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "facewash",
+      "timestamp": 1756365337578,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "facewash",
+      "timestamp": 1756365335640,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "facewash",
+      "timestamp": 1756365076994,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
+      "query": "face wash",
+      "timestamp": 1756365001086,
+      "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
+    },
+    {
       "query": "face wash",
       "timestamp": 1756364398358,
       "userId": "Nia8JX3vUsfRIOmkPGJZtufxSng2"
@@ -832,7 +892,7 @@
     }
   ],
   "popularSearches": {
-    "laptop": 114,
+    "laptop": 116,
     "wireless headphones": 4,
     "gaming laptop": 4,
     "dfhdfhdf": 1,
@@ -844,10 +904,10 @@
     "best gaming laptop 2024": 14,
     "smartphone": 3,
     "coffee maker": 1,
-    "phone": 3,
-    "face wash": 4,
+    "phone": 4,
+    "face wash": 6,
     "fac": 1,
     "face": 1,
-    "facewash": 1
+    "facewash": 8
   }
 }

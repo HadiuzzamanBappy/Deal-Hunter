@@ -2,7 +2,7 @@
 import React from 'react';
 import UserProfileDropdown from './UserProfileDropdown';
 
-const Header = ({ theme, toggleTheme, maxResults, setMaxResults, sortBy, setSortBy, country, setCountry, onAuthOpen, onFavoritesClick }) => (
+const Header = ({ theme, toggleTheme, maxResults, setMaxResults, sortBy, setSortBy, country, setCountry, onAuthOpen, onFavoritesClick, user }) => (
   <header className="relative rounded-3xl bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-500 text-white shadow-2xl mb-8 py-10 px-8 text-center transition-all duration-500 backdrop-blur-xl bg-opacity-90 border border-white/30 z-40 overflow-visible">
     {/* Enhanced Background Effects */}
     <div className="absolute inset-0 bg-gradient-to-r from-white/5 to-transparent rounded-3xl"></div>
@@ -25,6 +25,13 @@ const Header = ({ theme, toggleTheme, maxResults, setMaxResults, sortBy, setSort
         <p className="text-xl lg:text-2xl opacity-95 font-semibold tracking-wide text-blue-100 mb-2">
           🚀 Intelligent Product Search & Analysis
         </p>
+        
+        {/* Additional message when AI is disabled */}
+        {!user && (
+          <p className="text-lg opacity-80 font-medium tracking-wide text-yellow-200 mb-2">
+            ⚡ Sign in to unlock AI-powered recommendations!
+          </p>
+        )}
       </div>
 
       {/* Enhanced Controls Section */}

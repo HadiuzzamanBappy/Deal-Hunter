@@ -53,7 +53,7 @@ export const executeApiSearch = async (provider, keywords) => {
             // Add a prefix to ensure itemId is unique across providers
             mappedItem.itemId = `${provider.name.toLowerCase()}-${mappedItem.itemId}`;
             return mappedItem;
-        }).slice(0, provider.config.maxResults || 10); // Limit results
+        }).slice(0, provider.config.maxResults || 30); // Limit results
 
     } catch (error) {
         console.error(`[ApiService] Error fetching from ${provider.name} API:`, error.response?.data || error.message);
